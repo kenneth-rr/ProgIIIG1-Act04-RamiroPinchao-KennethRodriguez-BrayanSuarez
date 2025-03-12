@@ -21,11 +21,11 @@ progenitor( patricia, jaime ).
 dif( X, Y ) :- X \= Y.
 
 %Reglas solicitadas en el ejercicio 1.3
-es_madre( X ) :- mujer( X ), progenitor( X, _ ), !.
+es_madre( X ) :- mujer( X ), progenitor( X, _ ).
 
-es_padre( X ) :- hombre( X ), progenitor( X, _ ), !.
+es_padre( X ) :- hombre( X ), progenitor( X, _ ).
 
-es_hijo( X ) :- hombre( X ), progenitor( _, X ), !.
+es_hijo( X ) :- hombre( X ), progenitor( _, X ).
 
 hermana_de( X, Y ) :- 
     mujer( X ), 
