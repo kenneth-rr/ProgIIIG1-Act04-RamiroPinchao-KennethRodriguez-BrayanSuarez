@@ -1,7 +1,13 @@
 % Hechos de genero
-hombre( [ jose, tomas, jaime ] ).
+hombre( jose ).
+hombre( tomas ).
+hombre( jaime ).
 
-mujer( [ clara, isabel, ana, patricia ] ).
+mujer( clara ).
+mujer( isabel ).
+mujer( ana ).
+mujer( patricia ).
+
 
 % Hechos de progenitores
 progenitor( clara, jose ).
@@ -11,34 +17,29 @@ progenitor( jose, ana ).
 progenitor( jose, patricia ).
 progenitor( patricia, jaime ).
 
-%Regla de diferente(regla dada)
+%Regla de diferente
 dif( X, Y ) :- X \= Y.
 
-%Regla de diferente para crear el arbol SLD
-myDif( X, Y, Result ) :- X = Y, Result is 0, !.
-
-myDif( _, _, Result ) :- Result is 1.
-
 %Reglas solicitadas en el ejercicio 1.3
-es_madre( X ) :- mujer( Mujeres ), member( X , Mujeres ), progenitor( X, _ ).
+es_madre( X ) :- mujer( X ), progenitor( X, _ ).
 
-es_padre( X ) :- hombre( Hombres ), member( X, Hombres ), progenitor( X, _ ).
+es_padre( X ) :- hombre( X ), progenitor( X, _ ).
 
-es_hijo( X ) :- hombre( Hombres ), member( X, Hombres ), progenitor( _, X ).
+es_hijo( X ) :- hombre( X ), progenitor( _, X ).
 
 hermana_de( X, Y ) :- 
-    mujer( Mujeres ), member( X , Mujeres ),  
+    mujer( X ), 
     progenitor( Progenitor, X ), 
     progenitor( Progenitor, Y ), 
-    myDif( X, Y, Result ), Result = 1.
+    dif( X, Y ).
 
 abuelo_de( X, Y ) :- 
-    hombre( Hombres ), member( X, Hombres ),
+    hombre( X ),
     progenitor( X, Hijo ),
     progenitor( Hijo, Y ).
 
 abuela_de( X, Y ) :- 
-    mujer( Mujeres ), member( X , Mujeres ), 
+    mujer( X ),
     progenitor( X, Hijo ),
     progenitor( Hijo, Y ).
 
@@ -46,10 +47,10 @@ hermanos( X, Y ) :-
     progenitor( Progenitor1, X ),
     progenitor( Progenitor2, Y ),
     Progenitor1 = Progenitor2,
-    myDif( X, Y, Result ), Result = 1.
+    dif( X, Y ).
 
 tia_de( X, Y ) :-
-    mujer( Mujeres ), member( X , Mujeres ), 
+    mujer( X ),
     hermana_de( X, Progenitor ),
     progenitor( Progenitor, Y ).
     
